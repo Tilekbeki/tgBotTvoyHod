@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "progressInfo" ALTER COLUMN "result" DROP NOT NULL,
+ALTER COLUMN "admin" DROP NOT NULL,
+ALTER COLUMN "comment" DROP NOT NULL;

@@ -1,0 +1,41 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Roboto;
+}
+
+body {
+    background: linear-gradient(red, rgb(251, 255, 0));
+    background-size: cover;
+    height: 100vh;
+    margin: 0;
+}
+
+.content {
+    width: 50%;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+}
+
+input {
+    border-radius: 4px;
+    height: 40px;
+    width: 100%;
+}
+
+button {
+    background: black;
+    width: 100%;
+    height: 20px;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    cursor: pointer;
+}
