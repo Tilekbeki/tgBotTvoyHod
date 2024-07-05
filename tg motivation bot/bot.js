@@ -628,8 +628,8 @@ function getStartAgain(chatId) {
 
 function downloadRes(chatId,idProgress) {
     const fs = require('fs');
-    const dirPathImg = '../tg-bot-frontend/media/' + chatId+idProgress + '/image';
-    const dirPathVideo = '../YourBotFolder/media/' + chatId+idProgress + '/video';
+    const dirPathImg = './media/' + chatId+idProgress + '/image';
+    let downloadedImgUrl;
 
     bot.sendMessage(chatId, 'отправь свой результат в формате ФОТО!');
     //photo
@@ -639,9 +639,33 @@ function downloadRes(chatId,idProgress) {
             if (!fs.existsSync(dirPathImg)) {
                 fs.mkdirSync(dirPathImg, { recursive: true });
             }
-    
-            await bot.downloadFile(img.photo[img.photo.length-1].file_id, dirPathImg);
-            bot.sendMessage(chatId, 'Отлично! Обрабатываю результаты…');
+            try {
+                await bot.downloadFile(img.photo[0].file_id, dirPathImg);
+                const photoPath = await bot.downloadFile(img.photo[0].file_id, dirPathImg);
+                downloadedImgUrl = `./${photoPath}`;
+                const imageBuffer = fs.readFileSync(downloadedImgUrl);
+                const base64Image = imageBuffer.toString('base64');
+                console.log(base64Image);
+                const resultData = {
+                    link: `data:image/jpeg;base64,${base64Image}`,
+                    type: "img",
+                    progressInfoId: idProgress
+                };
+                let responseResult = await fetch('http://localhost:3000/result/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    body: JSON.stringify(resultData)
+                }); 
+                if(responseResult.ok) {
+                    bot.sendMessage(chatId, 'Отлично! Обрабатываю результаты…');
+                }
+                bot.sendPhoto(chatId, downloadedImgUrl);
+            } catch (error) {
+                console.error(error);
+            }
+            
             setTimeout(() => {
                 const status = getStatus(idProgress);
                 if(status!='inProgress' && status=='done'){

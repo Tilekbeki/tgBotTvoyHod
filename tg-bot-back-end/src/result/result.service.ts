@@ -20,9 +20,9 @@ export class ResultService {
     return this.prismaService.result.findMany();
   }
 
-  async findOne(id: number) {
-    const result = await this.prismaService.result.findUnique({
-      where: { id },
+  async findOne(progressInfoId: number) {
+    const result = await this.prismaService.result.findFirst({
+      where: { progressInfoId },
     });
     if (!result) {
       throw new HttpException('result not found', HttpStatus.NOT_FOUND);
