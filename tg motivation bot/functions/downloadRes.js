@@ -1,4 +1,4 @@
-function downloadRes(chatId,idProgress) {
+function downloadRes(bot, chatId, idProgress) {
     const fs = require('fs');
     const dirPathImg = './media/' + chatId+idProgress + '/image';
     let downloadedImgUrl;

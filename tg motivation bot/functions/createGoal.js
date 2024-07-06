@@ -1,11 +1,14 @@
-function createGoal(chatId, category) {
+const {getStartAgain}  = require('./getStartAgain');
+const {getQuiz}  = require('./getQuiz');
+
+function createGoal(bot, chatId, category) {
     isCreatingGoal = true; // Устанавливаем флаг в true при начале создания цели
     let goalName = '';
     let goalDescription = '';
     let deadline = '';
 
     // Функция для запроса названия цели
-    function askGoalName(category) {
+    function askGoalName(bot, category) {
         bot.sendMessage(chatId, 'Принято👍 А теперь дай название своей цели').then(async ()=>{
            await bot.sendMessage(chatId, '<b>Пример:</b> Научиться танцевать.',{parse_mode: "HTML"})
             .then(() => {
@@ -20,7 +23,7 @@ function createGoal(chatId, category) {
                         case "⭐️ мои цели":
                             if (isCreatingGoal) {
                                 bot.sendMessage(chatId, 'Запрещенное действие! Вы находитесь в процессе создания цели. \n Напишите /exit, если хотите выйти из режима.');
-                                createGoal(categoryName);
+                                createGoal(bot, categoryName);
                             } else {
                                 bot.sendMessage(chatId, 'Такой команды нет в этом контексте.');
                             }
@@ -28,12 +31,12 @@ function createGoal(chatId, category) {
                         case "/exit":
                             isCreatingGoal = false;
                             bot.sendMessage(chatId, 'Создание цели отменено.');
-                            getStartAgain(chatId);
+                            getStartAgain(bot, chatId);
                             break;
                         default:
                             if (isCreatingGoal) {
                                 goalName = msg.text;
-                                askGoalDescription(category);
+                                askGoalDescription(bot, category);
                             }
                     }
                 });
@@ -43,7 +46,7 @@ function createGoal(chatId, category) {
     }
 
     // Функция для запроса описания цели
-    function askGoalDescription(category) {
+    function askGoalDescription(bot, category) {
         bot.sendMessage(chatId, 'Отлично! Укажи, какого результата планируешь достичь и подробнее опиши, как собираешься это делать⚡️🔝').then(async ()=>{
            await bot.sendMessage(chatId, '<b>Пример:</b> Желаю создать собственный видео-клип и освоить навыки монтажа, чтобы использовать их в будущей работе на телевидении.',{parse_mode: "HTML"})
             bot.once('text', msg => {
@@ -57,7 +60,7 @@ function createGoal(chatId, category) {
                     case "⭐️ мои цели":
                         if (isCreatingGoal) {
                             bot.sendMessage(chatId, 'Запрещенное действие! Вы находитесь в процессе создания цели. \n Напишите /exit, если хотите выйти из режима.');
-                            createGoal(categoryName);
+                            createGoal(bot, categoryName);
                         } else {
                             bot.sendMessage(chatId, 'Такой команды нет в этом контексте.');
                         }
@@ -65,12 +68,12 @@ function createGoal(chatId, category) {
                     case "/exit":
                         isCreatingGoal = false;
                         bot.sendMessage(chatId, 'Создание цели отменено.');
-                        getStartAgain(chatId);
+                        getStartAgain(bot, chatId);
                         break;
                     default:
                         if (isCreatingGoal) {
                             goalName = msg.text;
-                            askDeadline(category); // Запрашиваем дедлайн после получения описания
+                            askDeadline(bot, category); // Запрашиваем дедлайн после получения описания
                         }
                 }
                 
@@ -80,14 +83,14 @@ function createGoal(chatId, category) {
     }
 
     // Функция для запроса дедлайна
-    function askDeadline(category) {
+    function askDeadline(bot, category) {
         bot.sendMessage(chatId, 'К какой дате ты хочешь достичь своей цели? (в формате ДД.ММ.ГГГГ):')
             .then(() => {
                 bot.once('text', async msg => {
                     const deadlinePattern = /^\d{2}\.\d{2}\.\d{4}$/;
                     if (!deadlinePattern.test(msg.text)) {
                         bot.sendMessage(chatId, 'Неверный формат дедлайна. Пожалуйста, введите дедлайн в формате ДД.ММ.ГГГГ:');
-                        askDeadline(category); // Повторяем запрос дедлайна
+                        askDeadline(bot, category); // Повторяем запрос дедлайна
                         return;
                     }
                     const message = msg.text.toLowerCase();
@@ -99,7 +102,7 @@ function createGoal(chatId, category) {
                         case "⭐️ мои цели":
                             if (isCreatingGoal) {
                                 bot.sendMessage(chatId, 'Запрещенное действие! Вы находитесь в процессе создания цели. \n Напишите /exit, если хотите выйти из режима.');
-                                createGoal(categoryName);
+                                createGoal(bot, categoryName);
                             } else {
                                 bot.sendMessage(chatId, 'Такой команды нет в этом контексте.');
                             }
@@ -107,7 +110,7 @@ function createGoal(chatId, category) {
                         case "/exit":
                             isCreatingGoal = false;
                             bot.sendMessage(chatId, 'Создание цели отменено.');
-                            getStartAgain(chatId);
+                            getStartAgain(bot, chatId);
                             break;
                         default:
                             console.log('капец что ты с этим миром не так')
@@ -190,7 +193,7 @@ function createGoal(chatId, category) {
                     console.error(errorMessage);
                 }
                 await bot.deleteMessage(msg.chat.id, msg.message_id);
-                getQuiz(chatId,goalId,deadline,progressinfoId);
+                getQuiz(bot, chatId, goalId, deadline, progressinfoId);
             } else {
                 console.error("Ошибка при получении данных:", response.status);
                 let errorMessage = await response.text();
@@ -205,7 +208,7 @@ function createGoal(chatId, category) {
     }
 
     // Начинаем процесс создания цели с запроса названия
-    askGoalName(category);
+    askGoalName(bot, category);
 }
 
 module.exports = {createGoal};

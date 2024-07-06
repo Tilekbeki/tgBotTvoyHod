@@ -1,3 +1,5 @@
+const {getNewQuote}  = require('./getNewQuote');
+const {checkEnd}  = require('./checkEnd');
 function checkDeadlineAndNotify(chatId,deadlineString,idProgress) {
     // Получаем сегодняшнюю дату
     const today = new Date();
@@ -22,21 +24,21 @@ function checkDeadlineAndNotify(chatId,deadlineString,idProgress) {
 
     } else if (timeDifferenceInMilliseconds >= monthInMilliseconds) {
         setTimeout(() => {
-            getNewQuote(chatId);
+            getNewQuote(bot, chatId);
 
         }, firstWeek);
         setTimeout(() => {
-            getNewQuote(chatId,'yes');
+            getNewQuote(bot, chatId, 'yes');
 
         }, firstFithDays);
         setTimeout(() => {
-            getNewQuote(chatId,'yes');
+            getNewQuote(bot, chatId, 'yes');
 
         }, weekBeforeFinished);
     } else if(timeDifferenceInMilliseconds<monthInMilliseconds) {
         let half = timeDifferenceInMilliseconds/2;
         setTimeout(() => {
-            getNewQuote(chatId,'yes');
+            getNewQuote(bot, chatId, 'yes');
 
         }, half);
     }
@@ -44,7 +46,7 @@ function checkDeadlineAndNotify(chatId,deadlineString,idProgress) {
     // Устанавливаем таймер, который будет активироваться через разницу во времени
     setTimeout(() => {
         bot.sendMessage(chatId, 'Все сроки наступили');
-        checkEnd(chatId,idProgress)
+        checkEnd(bot, chatId, idProgress)
     }, timeDifferenceInMilliseconds);
 }
 module.exports = {checkDeadlineAndNotify};

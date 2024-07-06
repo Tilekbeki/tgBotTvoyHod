@@ -1,4 +1,4 @@
-function getStartAgain(chatId) {
+function getStartAgain(bot, chatId) {
     bot.sendMessage(chatId, 'Ты вернулся в начальный режим!');
     bot.sendMessage(chatId, ' ', {
         reply_markup: {

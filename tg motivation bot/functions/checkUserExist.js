@@ -1,4 +1,5 @@
-async function checkUserExist(userChatId,username,category) {
+const {createGoal}  = require('./createGoal');
+async function checkUserExist(bot, userChatId, username, category) {
     try {
         const response = await fetch(`http://localhost:3000/user/${userChatId}`);
         const userData = await response.json();

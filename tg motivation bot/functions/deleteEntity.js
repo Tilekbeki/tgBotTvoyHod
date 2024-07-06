@@ -1,4 +1,4 @@
-async function deleteEntities(entity, id) {
+async function deleteEntities(bot, entity, id) {
     const entities = ['progressinfo', 'goal', 'user'];
     if (entities.includes(entity)) {
       const responseToDelete = await fetch(`http://localhost:3000/${entity}/${id}`, {

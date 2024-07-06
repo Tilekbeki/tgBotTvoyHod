@@ -1,4 +1,4 @@
-function checkEnd(chatId,idProgress) {
+function checkEnd(bot, chatId, idProgress) {
     bot.sendMessage(chatId, `Привет, самый целеустремленный в мире человек!\nХвастайся, сегодня можно😜 С нетерпением ждем твоих результатов🔝`);
     downloadRes(chatId,idProgress);
 }

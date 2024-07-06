@@ -1,4 +1,4 @@
-async function getStatus(idProgress) {
+async function getStatus(bot, idProgress) {
     const responseForStatus = await fetch(`http://localhost:3000/progressinfo/${idProgress}`);
 
     if (!responseForStatus.ok) {

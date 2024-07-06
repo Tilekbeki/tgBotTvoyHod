@@ -1,5 +1,5 @@
 //функция для прохождения опросника
-function getQuiz(chatId, goalId,deadline,idProgress) {
+function getQuiz(bot, chatId, goalId, deadline, idProgress) {
     bot.sendMessage(chatId, 'Здорово! Цель достойна реализации🔝 \nА теперь давай проверим твою готовность для ее достижения😏 ').then(()=>{
         bot.sendMessage(chatId, 'Ответь на несколько вопросов и напиши готов(а)»').then(()=>{
             bot.sendMessage(chatId, `http://localhost:3001/quiz?goalId=${goalId}&userId=${chatId}`);
@@ -18,10 +18,10 @@ function getQuiz(chatId, goalId,deadline,idProgress) {
                         // Запись существует, отправляем пользователю сообщение
                         bot.sendMessage(chatId, 'Отлично Обрабатываю заявку…');
                         setTimeout(() => {
-                            const status = getStatus(idProgress).then(status=>{
+                            const status = getStatus(bot, idProgress).then(status=>{
                                 if(status!='active' && status =='inProgress'){
                                     bot.sendMessage(chatId, 'Момент настал – ДВИГАЙ к своей цели⚡😀\nДостигай успехов в указанный срок и присылай свои результаты (фото, видео, аудио и др. подтверждения) 🙌 И жди награду за свою целеустремленность/\nЦелеустремленность приносит подарочки/ Целеустремленность вознаграждается)/Стремления всегда вознаграждаются😁');
-                                    checkDeadlineAndNotify(chatId,deadline,idProgress)
+                                    checkDeadlineAndNotify(bot, chatId, deadline, idProgress)
                                 } 
                                 bot.sendMessage(chatId, `статус: ${status}`);
                                 if (status == 'canceled') {

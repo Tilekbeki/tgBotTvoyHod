@@ -1,4 +1,7 @@
-function start(){
+const {downloadRes}  = require('./downloadRes');
+const {getNewQuote}  = require('./getNewQuote');
+const {needHelp}  = require('./needHelp');
+function start(bot){
     bot.on('text', async msg => {
         try {
     
@@ -51,13 +54,13 @@ function start(){
             
             }
             else if(msg.text == '/result') {
-                downloadRes(msg.chat.id,1);
+                downloadRes(bot, msg.chat.id, 1);
             }
             else if (msg.text == '/getMotivation') {
-                getNewQuote(msg.chat.id);
+                getNewQuote(bot,msg.chat.id);
             } 
             else if (msg.text=='/helpme') {
-                needHelp(msg.chat.id,msg.chat.username)
+                needHelp(bot, msg.chat.id, msg.chat.username)
             }
     
             // else {

@@ -1,5 +1,5 @@
 // Функция для отправки категорий пользователю
-function getCategories(chatId) {
+function getCategories(bot, chatId) {
     fetch('http://localhost:3000/category')
         .then(response => response.json())
         .then(data => {

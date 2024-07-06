@@ -1,9 +1,11 @@
 
 const { response } = require('express');
 const TelegramBot = require('node-telegram-bot-api');
-const {commands}  = require('./blocks');
-const {quotes}  = require('./quotes');
-const {start}  = require('./functions');
+const {commands}  = require('./blocks/comands');
+const {quotes}  = require('./blocks/quotes');
+const {start}  = require('./functions/start');
+const {checkUserExist}  = require('./functions/checkUserExist');
+
 
 
 
@@ -29,7 +31,7 @@ bot.on("polling_error", err => console.log(err.data.error.message));
 bot.setMyCommands(commands);
 
 
-start();
+start(bot);
     //закрытие меню
     bot.on('callback_query', async ctx => {
         try {
@@ -50,7 +52,7 @@ start();
                     bot.sendMessage(chatId, `Вы выбрали категорию: ${category}`)
                         .then(() => {
                             // Удаляем сообщение с кнопками категорий
-                            checkUserExist(chatId, ctx.message.chat.first_name,category);
+                            checkUserExist(bot, chatId, ctx.message.chat.first_name, category);
                             bot.deleteMessage(chatId, ctx.message.message_id)
                                 .catch(error => console.error('Ошибка при удалении сообщения:', error));
                         })

@@ -1,4 +1,4 @@
-function needHelp(chatId,name) {
+function needHelp(bot, chatId, name) {
     let descr;
     bot.sendMessage(chatId, 'Привет! Распиши одним сообщением, пожалуйста, что случилось и в чем тебе нужна помощь?');
     bot.on('text', async msg => {

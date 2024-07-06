@@ -1,4 +1,4 @@
-function getNewQuote(chatId,needHelp='') {
+function getNewQuote(bot,chatId,needHelp='') {
     // Если все цитаты были использованы, сбросить массив
     if (usedQuotes.length === quotes.length) {
       usedQuotes = [];
