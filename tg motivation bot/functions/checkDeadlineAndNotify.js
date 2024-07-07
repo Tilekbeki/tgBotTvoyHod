@@ -1,6 +1,6 @@
 const {getNewQuote}  = require('./getNewQuote');
 const {checkEnd}  = require('./checkEnd');
-function checkDeadlineAndNotify(chatId,deadlineString,idProgress) {
+function checkDeadlineAndNotify(bot, chatId,deadlineString,idProgress) {
     // Получаем сегодняшнюю дату
     const today = new Date();
 
@@ -48,5 +48,14 @@ function checkDeadlineAndNotify(chatId,deadlineString,idProgress) {
         bot.sendMessage(chatId, 'Все сроки наступили');
         checkEnd(bot, chatId, idProgress)
     }, timeDifferenceInMilliseconds);
+
+    //сообщение на ранее фото результат
+    bot.on('photo', async img => {
+        try {
+            await bot.sendMessage(chatId, "Вау! Я вижу ты реализовал свою цель раньше! \nДавай зафиксируем результат.💪\nНапиши команду /result");
+        } catch (error) {
+            console.error('Ошибка при отправке сообщения:', error);
+        }
+    });
 }
 module.exports = {checkDeadlineAndNotify};

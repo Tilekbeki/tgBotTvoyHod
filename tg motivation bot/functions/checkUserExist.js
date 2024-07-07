@@ -5,7 +5,7 @@ async function checkUserExist(bot, userChatId, username, category) {
         const userData = await response.json();
 
         if (userData.chatId) {
-            createGoal(userChatId,category);
+            createGoal(bot, userChatId, category);
         } else {
             let user = {
                 chatId: userChatId,
@@ -21,7 +21,7 @@ async function checkUserExist(bot, userChatId, username, category) {
               if (response.ok) {
                 // Если статус ответа в диапазоне 200-299, это означает, что запрос выполнен успешно
                 console.log("Пользователь успешно создан");
-                createGoal(userChatId,category);
+                createGoal(bot, userChatId, category);
                 // Теперь можно обработать ответ сервера, если это необходимо
                 let userData = await response.json(); // Предположим, что сервер возвращает информацию о созданном пользователе в формате JSON
                 // console.log(userData); // Вывод информации о созданном пользователе

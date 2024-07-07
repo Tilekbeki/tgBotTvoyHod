@@ -4,6 +4,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const {commands}  = require('./blocks/comands');
 const {quotes}  = require('./blocks/quotes');
 const {start}  = require('./functions/start');
+const {getCategories}  = require('./functions/getCategories');
 const {checkUserExist}  = require('./functions/checkUserExist');
 
 
@@ -42,7 +43,7 @@ start(bot);
                 case "createGoal":
                     await bot.deleteMessage(ctx.message.chat.id, ctx.message.message_id);
                     await bot.sendMessage(ctx.message.chat.id, "Отлично! Теперь выбери категорию своей цели👈");
-                    getCategories(ctx.message.chat.id);
+                    getCategories(bot, ctx.message.chat.id);
                     break;
                 default:
                     const category = ctx.data; // Получаем выбранную категорию
@@ -64,3 +65,4 @@ start(bot);
             console.log(error);
         }
     });
+    

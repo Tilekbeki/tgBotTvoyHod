@@ -1,3 +1,6 @@
+const {checkDeadlineAndNotify}  = require('./checkDeadlineAndNotify');
+const {getStatus}  = require('./getStatus');
+
 //функция для прохождения опросника
 function getQuiz(bot, chatId, goalId, deadline, idProgress) {
     bot.sendMessage(chatId, 'Здорово! Цель достойна реализации🔝 \nА теперь давай проверим твою готовность для ее достижения😏 ').then(()=>{
