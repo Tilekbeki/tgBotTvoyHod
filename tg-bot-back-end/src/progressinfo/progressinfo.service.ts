@@ -116,9 +116,9 @@ export class ProgressinfoService {
     return progressInfo;
   }
 
-  async remove(id: number) {
-    const deletedprogressInfo = await this.prismaService.progressInfo.delete({
-      where: { id },
+  async remove(goalId: number) {
+    const deletedprogressInfo = await this.prismaService.progressInfo.deleteMany({
+      where: { goalId },
     });
     return deletedprogressInfo;
   }

@@ -98,7 +98,7 @@ model Quiz {
   goalId Int
   userId Int
   answers String
-  isFirst Boolean default(true)
+  isFirstTime Boolean @default(true)
   dateFilled DateTime @default(now())
   User User @relation(fields: [userId], references: [chatId])
   Goal Goal @relation(fields: [goalId], references: [id])

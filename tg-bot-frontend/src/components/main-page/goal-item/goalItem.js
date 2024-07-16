@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 const goalItem = (props) => {
     
 
-    const {id,name,user,status,goalId,userId} = props;/*приняли все пропсы а также метод*/
+    const {id,name,user,status,goalId,userId,descr} = props;/*приняли все пропсы а также метод*/
         let classNamesMarked = "goal-item";
         
     return (
@@ -16,7 +16,7 @@ const goalItem = (props) => {
            <div>goalId: {goalId}</div>
            <div>userId {userId}</div>
           {/* Используем компонент Link для перехода на страницу /goal и передачи пропсов */}
-          <Link to="/goal" state={{ id,  status,user,name,goalId,userId }}>перейти</Link>
+          <Link to="/goal" state={{ id,  status,user,name,goalId,userId, descr }}>перейти</Link>
         </li>
     )
 }

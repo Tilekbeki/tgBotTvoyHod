@@ -1,0 +1,43 @@
+.goal-page {
+    padding-top: 40px;
+    
+}
+
+.goal-card {
+    padding: 20px;
+    background-color: rgba(203, 200, 200, 0.15);  
+    backdrop-filter: blur(5px);
+    border-radius: 20px 20px 0 0;
+    color:#fff;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    select {
+        width: 200px;
+        padding: 5px;
+    }
+    textarea {
+        width: 100%;
+        padding: 5px;
+        height: 100px;
+    }
+    button {
+        border-radius: 10px;
+        transition: 0.5s all;
+        background: #dc3545;
+        border: #dc3545 1px solid;
+        width: 400px;
+        float: right;
+        &:hover {
+            background: #fff;
+            border: #dc3545 1px solid;
+            color: #dc3545;
+        }
+    }
+}
+
+.goal-info {
+    background: #fff;
+    border-radius: 0 0 20px 20px;
+    padding: 20px;
+}

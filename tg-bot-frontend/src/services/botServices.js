@@ -26,21 +26,6 @@ class MyBackEnd {
         }
     };
 
-    getGoals = async () => {
-        try {
-            const data = await this.getResource(`${this._apiBase}/progressInfo`);
-
-            if (!Array.isArray(data)) {
-                throw new Error('Data not found or is not an array');
-            }
-
-            // Преобразование данных в нужный формат
-            return data.map(item => ({ text: item.id }));
-        } catch (error) {
-            throw new Error(`Error fetching goals progress info: ${error.message}`);
-        }
-    };
-
     getPrize = async (goalId) => {
         try {
             const data = await this.getResource(`${this._apiBase}user-prizes/${goalId}`);
@@ -66,6 +51,44 @@ class MyBackEnd {
             const data = await this.getResource(`${this._apiBase}help-req/`);
 
             return data;
+        } catch (error) {
+            throw new Error(`Error fetching results: ${error.message}`);
+        }
+    };
+
+    createPrize = async (userId, goalId, prizeType, prizeContent) => {
+        try {
+            const responsePrize = await fetch(`${this._apiBase}prize`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    type: prizeType,
+                    content: prizeContent
+                })
+            });
+            let prizeId;
+            if (responsePrize.ok) {
+                let responseData = await responsePrize.json();
+                prizeId = responseData.id;
+                console.log('Prize создан!');
+            }
+            const responseUserPrize = await fetch(`${this._apiBase}user-prizes`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: userId,
+                    goalId: goalId,
+                    prizeId: prizeId
+                })
+            });
+            
+            if (responseUserPrize.ok) {
+                console.log('userPrize создан!');
+            }
         } catch (error) {
             throw new Error(`Error fetching results: ${error.message}`);
         }

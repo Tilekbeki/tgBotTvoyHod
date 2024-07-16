@@ -42,7 +42,10 @@ export class UsergoalService {
     return `This action updates a #${id} usergoal`;
   }
 
-  async remove(id: number) {
-    return `This action removes a #${id} usergoal`;
+  async remove(goalId: number) {
+    const deletedUserGoal = await this.prismaService.userGoals.deleteMany({
+      where: { goalId },
+    });
+    return deletedUserGoal;
   }
 }

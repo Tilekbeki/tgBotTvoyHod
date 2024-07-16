@@ -1,0 +1,23 @@
+.help{
+    &-list {
+        background: #fff;
+        padding: 20px;
+        list-style: none;
+        border-radius: 10px;
+    }
+    &-card {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        box-shadow: 0px 5px 10px #bdbdbd;
+        border-radius: 4px;
+        width: 100%;
+        padding: 10px 20px;
+        align-items: center;
+        button {
+            background: aquamarine;
+            border-radius: 4px;
+            color: #000;
+        }
+    }
+}

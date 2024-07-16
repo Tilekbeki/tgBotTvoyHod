@@ -6,7 +6,7 @@ import HelpList from './help-list/HelpList';
 import { useEffect } from 'react';
 function HelpPage() {
     useEffect(() => {
-        document.title = 'Помощь';
+        document.title = 'Страница помощи';
       }, []);
     return(
         <div>

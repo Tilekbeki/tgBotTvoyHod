@@ -1,3 +1,4 @@
+import './HelpList.scss'
 import React, { useState, useEffect } from 'react';
 import MyBackEnd from "../../../services/botServices";
 function HelpList() {
@@ -46,11 +47,13 @@ function HelpList() {
     return (
         <div>
             <h1>Help List</h1>
-            <ul>
+            <ul className='help-list'>
                 {helps.map(help => (
-                    <li key={help.id}>
-                        nickname TG:@{help.nickName} Статус:{help.Helped? 'Помогли' : 'Не помогли'} Описание: {help.Description}
-                        <button onClick={() => toggleHelped(help.id)}>Помочь</button>
+                    <li key={help.id} className='help-card'>
+                        <div>nickname TG:@{help.nickName}</div>
+                        <div>Статус:{help.Helped? 'Помогли' : 'Не помогли'}</div>
+                        <div>Описание: {help.Description}</div>
+                        <div><button onClick={() => toggleHelped(help.id)}>Помочь</button></div>
                     </li>
                 ))}
             </ul>

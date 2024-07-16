@@ -36,9 +36,9 @@ export class QuizService {
     return quiz;
   }
 
-  async remove(id: number) {
-    const deletedQuiz = await this.prismaService.quiz.delete({
-      where: { id },
+  async remove(goalId: number) {
+    const deletedQuiz = await this.prismaService.quiz.deleteMany({
+      where: { goalId },
     });
     return deletedQuiz;
   }

@@ -27,8 +27,8 @@ export class QuizController {
     return this.quizService.update(+id, updateQuizDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.quizService.remove(+id);
+  @Delete(':goalId')
+  remove(@Param('goalId') goalId: string) {
+    return this.quizService.remove(+goalId);
   }
 }

@@ -16,7 +16,7 @@ function GoalsList(props) {
       <div className="goals-list">
         {
         mas.map((item) => (
-          <GoalItem key={item.id} id={item.id} status={item.status} name={item.goalName} user={item.userName} goalId={item.goalId} userId={item.userId}/>
+          <GoalItem key={item.id} id={item.id} status={item.status} name={item.goalName} user={item.userName} goalId={item.goalId} userId={item.userId} descr={item.goalDescr}/>
         ))
         }
       </div>

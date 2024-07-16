@@ -71,6 +71,7 @@ const MotivationSurvey = () => {
 
     return (
         <div className="content">
+        <style>{'body { background:linear-gradient(red, rgb(251, 255, 0));background-size: cover;height: 100vh;margin: 0; }'}</style>
             {!isSubmitted? ( // Проверяем, была ли форма отправлена
                 <div className="form">
                     <h1>Опросник мотивации на достижение цели⚡️</h1>

@@ -28,7 +28,7 @@ export class UsergoalController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usergoalService.remove(+id);
+  remove(@Param('goalId') goalId: string) {
+    return this.usergoalService.remove(+goalId);
   }
 }

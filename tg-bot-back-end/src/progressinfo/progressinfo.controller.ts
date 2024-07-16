@@ -27,8 +27,8 @@ export class ProgressinfoController {
     return this.progressinfoService.update(+id, updateProgressinfoDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.progressinfoService.remove(+id);
+  @Delete(':goalId')
+  remove(@Param('goalId') goalId: string) {
+    return this.progressinfoService.remove(+goalId);
   }
 }

@@ -1,0 +1,16 @@
+.create-prize {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    button {
+        background: #dc3545;
+        border: #dc3545 1px solid;
+        width: 400px;
+        border-radius: 10px;
+        &:hover {
+            background: #fff;
+            border: #dc3545 1px solid;
+            color: #dc3545;
+        }
+    }
+}
