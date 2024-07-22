@@ -77,6 +77,7 @@ model progressInfo {
 model result {
   id    Int     @id @default(autoincrement())
   link String?
+  createdTime DateTime @default(now())
   type contentType @default(img)
   progressInfoId Int
   progressInfo progressInfo @relation(fields: [progressInfoId], references: [id])

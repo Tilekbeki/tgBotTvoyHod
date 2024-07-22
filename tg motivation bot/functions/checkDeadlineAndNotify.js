@@ -2,7 +2,7 @@ const {getNewQuote} = require('./getNewQuote');
 const {checkEnd} = require('./checkEnd');
 const {downloadRes} = require('./downloadRes');
 
-function checkDeadlineAndNotify(bot, chatId, deadlineString, idProgress) {
+function checkDeadlineAndNotify(bot, chatId, deadlineString, idProgress, goalId) {
     // Получаем сегодняшнюю дату
     const today = new Date();
 
@@ -46,25 +46,26 @@ function checkDeadlineAndNotify(bot, chatId, deadlineString, idProgress) {
     // Устанавливаем таймер, который будет активироваться через разницу во времени
     timeouts.push(setTimeout(() => {
         bot.sendMessage(chatId, 'Все сроки наступили');
-        checkEnd(bot, chatId, idProgress);
+        console.log(`айди потерянного прогресса ${idProgress}`)
+        checkEnd(bot, chatId, idProgress, goalId);
     }, timeDifferenceInMilliseconds));
 
     // Реакция на отправку файла (фото)
-    bot.on('photo', async img => {
-        try {
-            // Очистка всех таймеров
-            timeouts.forEach(timeout => clearTimeout(timeout));
+    // bot.on('photo', async img => {
+    //     try {
+    //         // Очистка всех таймеров
+    //         timeouts.forEach(timeout => clearTimeout(timeout));
 
-            await bot.sendMessage(chatId, "Вау! Я вижу ты реализовал свою цель раньше! \nДавай зафиксируем результат.💪\nНапиши команду /result");
-        } catch (error) {
-            console.error('Ошибка при отправке сообщения:', error);
-        }
-    });
+    //         await bot.sendMessage(chatId, "Вау! Я вижу ты реализовал свою цель раньше! \nДавай зафиксируем результат.💪\nНапиши команду /result");
+    //     } catch (error) {
+    //         console.error('Ошибка при отправке сообщения:', error);
+    //     }
+    // });
 
     // Обработка команды /result
     bot.onText(/\/result/, async msg => {
         try {
-            await downloadRes(bot, chatId);
+            await downloadRes(bot, chatId, idProgress, goalId);
         } catch (error) {
             console.error('Ошибка при вызове downloadRes:', error);
         }

@@ -21,7 +21,7 @@ export class ResultService {
   }
 
   async findOne(progressInfoId: number) {
-    const result = await this.prismaService.result.findFirst({
+    const result = await this.prismaService.result.findMany({
       where: { progressInfoId },
     });
     if (!result) {

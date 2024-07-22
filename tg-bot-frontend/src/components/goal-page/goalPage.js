@@ -9,11 +9,20 @@ import MyBackEnd from '../../services/botServices';
 import ImageDisplay from '../imageUrl/ImageDisplay';
 import CreatePrize from '../create-prize/createPrize';
 
+function convertDate(date) {
+    var day = date.getDate();
+    day = day < 10 ? "0" + day : day;
+    var month = date.getMonth() + 1;
+    month = month < 10 ? "0" + month : month;
+    var year = date.getFullYear();
+    return day + "." + month + "." + year;
+}
+
 function GoalPage() {
     const myBackEnddd = new MyBackEnd();
     const location = useLocation();
     const { id, name, user, status, goalId, userId,descr } = location.state;
-    const [imageSrc, setImageSrc] = useState('');
+    const [imageSrc, setImageSrc] = useState([]);
 
     useEffect(() => {
         document.title = name;
@@ -22,7 +31,7 @@ function GoalPage() {
             try {
                 const responseImg = await axios.get(`http://localhost:3000/result/${id}`);
                 const { data } = responseImg;
-                setImageSrc(data.link); // Устанавливаем данные изображения в состояние
+                setImageSrc(data); // Устанавливаем данные изображения в состояние
             } catch (error) {
                 console.error('Error fetching image:', error);
             }
@@ -75,7 +84,7 @@ function GoalPage() {
             { value: 'done', label: 'Законченный' }
         ].map(option =>
             option.value === currentStatus ?
-                <option defaultValue={option.value} key={option.value}>{option.label}</option> :
+                <option value={option.value} key={option.value}>{option.label}</option> :
                 <option value={option.value} key={option.value}>{option.label}</option>
         );
     };
@@ -86,11 +95,13 @@ function GoalPage() {
                 <div>*результатов нет.</div>
             )
         } else {
-            return (
-                <div>
-                    <ImageDisplay imageUrl={imageSrc} />
+            return imageSrc.map(item => (
+                <div key={item.link}>
+                    <ImageDisplay imageUrl={item.link} />
+                    <div>{ convertDate(new Date(item.createdTime)) }</div>
                 </div>
-            );
+            ));
+            
         }
         
     };

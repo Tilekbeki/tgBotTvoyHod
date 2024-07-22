@@ -65,7 +65,8 @@ export class ProgressinfoService {
   }
 
   async findOne(id: number): Promise<any> {
-    const progressInfo = await this.prismaService.progressInfo.findUnique({
+    console.log("легенда легенда легенда", id);
+    const progressInfo = await this.prismaService.progressInfo.findFirst({
       where: { id },
       include: {
         result: {

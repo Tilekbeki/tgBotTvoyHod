@@ -1,4 +1,7 @@
+const {quotes}  = require('../blocks/quotes');
+
 function getNewQuote(bot,chatId,needHelp='') {
+    let usedQuotes = [];
     // Если все цитаты были использованы, сбросить массив
     if (usedQuotes.length === quotes.length) {
       usedQuotes = [];

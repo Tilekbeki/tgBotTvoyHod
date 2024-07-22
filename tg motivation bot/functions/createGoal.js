@@ -193,7 +193,7 @@ function createGoal(bot, chatId, category) {
                     console.error(errorMessage);
                 }
                 await bot.deleteMessage(msg.chat.id, msg.message_id);
-                getQuiz(bot, chatId, goalId, deadline, progressinfoId);
+                getQuiz(bot, chatId, goalId, deadline, progressinfoId, true);
             } else {
                 console.error("Ошибка при получении данных:", response.status);
                 let errorMessage = await response.text();

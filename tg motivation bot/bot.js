@@ -22,7 +22,7 @@ const bot = new TelegramBot(API_KEY_BOT, {
   
 // Массив, чтобы отслеживать использованные цитаты
 let curDeadline;
-let usedQuotes = [];
+
 let isCreatingGoal = false;
 let progressinfoId;
 //обработка ошибки
