@@ -1,10 +1,9 @@
-// Функция для отправки категорий пользователю
 function getCategories(bot, chatId) {
     fetch('http://localhost:3000/category')
         .then(response => response.json())
         .then(data => {
             const inlineKeyboard = data.map(item => {
-                return [{ text: item.name, callback_data: item.name }];
+                return [{ text: item.name, callback_data: item.name }]; // Assuming 'item.id' is unique and appropriate
             });
             const replyMarkup = {
                 inline_keyboard: inlineKeyboard
@@ -19,4 +18,4 @@ function getCategories(bot, chatId) {
         .catch(error => console.error('Ошибка при получении данных категорий:', error));
 }
 
-module.exports = {getCategories};
+module.exports = { getCategories };

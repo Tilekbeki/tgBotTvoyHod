@@ -2,7 +2,7 @@ const {getNewQuote} = require('./getNewQuote');
 const {checkEnd} = require('./checkEnd');
 const {downloadRes} = require('./downloadRes');
 
-function checkDeadlineAndNotify(bot, chatId, deadlineString, idProgress, goalId) {
+function checkDeadlineAndNotify(bot, chatId, deadlineString, idProgress, goalId, app) {
     // Получаем сегодняшнюю дату
     const today = new Date();
 
@@ -47,7 +47,7 @@ function checkDeadlineAndNotify(bot, chatId, deadlineString, idProgress, goalId)
     timeouts.push(setTimeout(() => {
         bot.sendMessage(chatId, 'Все сроки наступили');
         console.log(`айди потерянного прогресса ${idProgress}`)
-        checkEnd(bot, chatId, idProgress, goalId);
+        checkEnd(bot, chatId, idProgress, goalId, app);
     }, timeDifferenceInMilliseconds));
 
     // Реакция на отправку файла (фото)

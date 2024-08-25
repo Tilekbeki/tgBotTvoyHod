@@ -1,11 +1,11 @@
 const {createGoal}  = require('./createGoal');
-async function checkUserExist(bot, userChatId, username, category) {
+async function checkUserExist(bot, userChatId, username, category, app) {
     try {
         const response = await fetch(`http://localhost:3000/user/${userChatId}`);
         const userData = await response.json();
 
         if (userData.chatId) {
-            createGoal(bot, userChatId, category);
+            createGoal(bot, userChatId, category, app);
         } else {
             let user = {
                 chatId: userChatId,
@@ -21,7 +21,7 @@ async function checkUserExist(bot, userChatId, username, category) {
               if (response.ok) {
                 // Если статус ответа в диапазоне 200-299, это означает, что запрос выполнен успешно
                 console.log("Пользователь успешно создан");
-                createGoal(bot, userChatId, category);
+                createGoal(bot, userChatId, category, app);
                 // Теперь можно обработать ответ сервера, если это необходимо
                 let userData = await response.json(); // Предположим, что сервер возвращает информацию о созданном пользователе в формате JSON
                 // console.log(userData); // Вывод информации о созданном пользователе

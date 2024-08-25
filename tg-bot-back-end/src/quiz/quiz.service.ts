@@ -19,7 +19,7 @@ export class QuizService {
   }
 
   async findOne(goalId: number) {
-    const quiz = await this.prismaService.quiz.findFirst({
+    const quiz = await this.prismaService.quiz.findMany({
       where: { goalId },
     });
     if (!quiz) {

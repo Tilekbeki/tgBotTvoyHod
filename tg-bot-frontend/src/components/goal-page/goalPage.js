@@ -23,7 +23,8 @@ function GoalPage() {
     const location = useLocation();
     const { id, name, user, status, goalId, userId,descr } = location.state;
     const [imageSrc, setImageSrc] = useState([]);
-
+    const statusBefore = status;
+    console.log(statusBefore);
     useEffect(() => {
         document.title = name;
 
@@ -69,6 +70,29 @@ function GoalPage() {
                 dateChecked: currentTime
             });
             console.log(response.data);
+            console.log(` после ${selectedStatus} до ${statusBefore}`)
+            alert('Статус обновлен!');
+            if (statusBefore === selectedStatus) {
+                if (statusBefore === 'inProgress') {
+                    const responseforFinish = await axios.get(`http://localhost:3002/api/finish/${statusBefore}/${userId}`);
+                    console.log(responseforFinish.data);
+                    console.log('остался на том же уровне');
+                }
+            } else if (statusBefore === 'inProgress' && selectedStatus === 'done') {
+                const responseforFinish = await axios.get(`http://localhost:3002/api/finish/${selectedStatus}/${userId}`);
+                console.log(responseforFinish.data);
+                console.log('закончил');
+            } else if (statusBefore === 'active' && selectedStatus === 'inProgress') {
+                const responseforNotify = await axios.get(`http://localhost:3002/api/begin/${selectedStatus}/${userId}`);
+                console.log(responseforNotify.data);
+                console.log('пошел дальше');
+            }
+            else if (statusBefore === 'active' && selectedStatus === 'canceled') {
+                const responseforNotify = await axios.get(`http://localhost:3002/api/begin/${selectedStatus}/${userId}`);
+                console.log(responseforNotify.data);
+                console.log('пошел дальше');
+            }
+            
             alert('Статус обновлен!');
         } catch (error) {
             console.error('Ошибка при обновлении статуса:', error);
@@ -90,21 +114,31 @@ function GoalPage() {
     };
 
     const displayImages = () => {
-        if (!imageSrc) {
-            return(
+        if (!imageSrc || imageSrc.length === 0) {
+            return (
                 <div>*результатов нет.</div>
-            )
+            );
         } else {
-            return imageSrc.map(item => (
-                <div key={item.link}>
-                    <ImageDisplay imageUrl={item.link} />
-                    <div>{ convertDate(new Date(item.createdTime)) }</div>
-                </div>
-            ));
-            
+            return imageSrc.map(item => {
+                if (item.type === 'video') {
+                    return (
+                        <div className="result-video" key={item.link}>
+                            <div>ссылка на видео <a href={item.link} target="_blank">{item.link}</a></div>
+                            <div>Дата получения: {convertDate(new Date(item.createdTime))}</div>
+                        </div>
+                    );
+                } else {
+                    return (
+                        <div className="result-img" key={item.link}>
+                            <ImageDisplay imageUrl={item.link} />
+                            <div>Дата получения: {convertDate(new Date(item.createdTime))}</div>
+                        </div>
+                    );
+                }
+            });
         }
-        
     };
+    
 
     return (
         <div>
@@ -141,7 +175,9 @@ function GoalPage() {
                 <div className="goal-info">
                     <Row>
                         <h2>Результаты</h2>
-                        {displayImages()}
+                        <div className="results">
+                            {displayImages()}
+                        </div>
                     </Row>
                     <Row>
                         <h2>Информация о призе</h2>

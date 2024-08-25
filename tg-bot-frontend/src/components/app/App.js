@@ -5,6 +5,7 @@ import MainPage from '../main-page/mainPage';
 import GoalPage from '../goal-page/goalPage';
 import MyBackEnd from '../../services/botServices';
 import MotivationSurvey from '../quiz-page/quizPage';
+import LastQuiz from '../last-quiz/lastQuiz';
 function App() {
   const [data, setData] = useState([]);
   const [allData, setAllData] = useState([]); // Инициализируем allData как пустой массив
@@ -66,6 +67,7 @@ function App() {
           <Route path="/helpList" element={<HelpPage />} />
           <Route path="/goal" element={<GoalPage />} />
           <Route path="/quiz" element={<MotivationSurvey />} />
+          <Route path="/quizlast" element={<LastQuiz />} />
         </Routes>
       </Router>
     </div>
