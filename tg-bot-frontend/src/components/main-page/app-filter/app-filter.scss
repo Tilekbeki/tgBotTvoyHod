@@ -1,12 +1,14 @@
 .btn-group {
     margin-top: 20px;
-    border: 1px solid red;
+    border: 1px solid #4d5bbe;
     color: #4d5bbe;
     width: 100%;
     background-color:#fff;
     height: 40px;
 }
-
+.btn-primary {
+    background: #4d5bbe !important;
+}
 .btn-group-vertical>.btn, .btn-group>.btn {
     height: 40px;
 }

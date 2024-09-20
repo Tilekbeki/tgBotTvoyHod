@@ -2,11 +2,14 @@ const { checkDeadlineAndNotify } = require('./checkDeadlineAndNotify');
 const { getStatus } = require('./getStatus');
 const { deleteEntities } = require('./deleteEntity');
 const { sendMail } = require('./sendMail');
+
+
 const express = require('express');
 // функция для прохождения опросника
 function getQuiz(bot, chatId, goalId, deadline, idProgress, isFirst, app) {
     const express = require('express');
     const bodyParser = require('body-parser');
+    
     if (isFirst) {
         bot.sendMessage(chatId, 'Здорово! Цель достойна реализации🔝 \nА теперь давай проверим твою готовность для ее достижения😏 ').then(() => {
             bot.sendMessage(chatId, 'Ответь на несколько вопросов и напиши готов(а)»').then(() => {
@@ -20,7 +23,9 @@ function getQuiz(bot, chatId, goalId, deadline, idProgress, isFirst, app) {
                         
                         const response = await fetch(`http://localhost:3000/quiz/${goalId}`);
                         if (response.ok) {
-                            bot.sendMessage(chatId, 'Отлично Обрабатываю заявку…');
+                            const responseData = await response.json();
+                            if (responseData && responseData.length > 0) { 
+                                bot.sendMessage(chatId, 'Отлично Обрабатываю заявку…');
                             let info = `пользователь с айди: ${chatId} создал цель с айди: ${goalId} \n Админ твоя задача проверить и поменять статус на inProgress`;
                             sendMail(bot, chatId,  info);
                             
@@ -28,7 +33,9 @@ function getQuiz(bot, chatId, goalId, deadline, idProgress, isFirst, app) {
                                 const status = req.params.status;
                                 const chatId = req.params.chatId;
                                 if (status === 'inProgress') {
-                                            bot.sendMessage(chatId, 'Момент настал – ДВИГАЙ к своей цели⚡😀\nДостигай успехов в указанный срок и присылай свои результаты (фото, видео, аудио и др. подтверждения) 🙌 И жди награду за свою целеустремленность/\nЦелеустремленность приносит подарочки/ Целеустремленность вознаграждается)/Стремления всегда вознаграждаются😁');
+                                            bot.sendMessage(chatId, 'Момент настал – ДВИГАЙ к своей цели⚡️😀\nДостигай успехов в указанный срок и присылай свои результаты (фото, видео, аудио и др. подтверждения) 🙌 Благородные стремления всегда вознаграждаются!💫😉')
+                                            .then(()=> {bot.sendMessage(chatId, 'Если цель будет достигнута раньше используй команду /complete!')});
+                                            
                                             checkDeadlineAndNotify(bot, chatId, deadline, idProgress, goalId, app);
                                         } else if (status === 'canceled') {
                                             deleteEntities(bot, 'quiz', goalId);
@@ -45,6 +52,11 @@ function getQuiz(bot, chatId, goalId, deadline, idProgress, isFirst, app) {
                                         }
                                 res.status(200).send('Status updated and notification sent');
                             });
+                            }
+                            else {
+                                console.log('Запись не найдена');
+                                askToFillQuiz();
+                            }
                             // setTimeout(async () => {
                             //     const status = await getStatus(bot, idProgress);
                             //     if (status === 'inProgress') {
@@ -79,7 +91,7 @@ function getQuiz(bot, chatId, goalId, deadline, idProgress, isFirst, app) {
 
             function askToFillQuiz() {
                 bot.sendMessage(chatId, 'Пожалуйста, напишите "готов" или "готова", чтобы продолжить.');
-                getQuiz(bot, chatId, goalId, deadline, idProgress, isFirst);
+                getQuiz(bot, chatId, goalId, deadline, idProgress, isFirst, app);
             }
         });
     } else {
@@ -109,7 +121,7 @@ function getQuiz(bot, chatId, goalId, deadline, idProgress, isFirst, app) {
 
             function askToFillQuiz() {
                 bot.sendMessage(chatId, 'Пожалуйста, напишите "готов" или "готова", чтобы продолжить.');
-                getQuiz(bot, chatId, goalId, deadline, idProgress, isFirst);
+                getQuiz(bot, chatId, goalId, deadline, idProgress, isFirst, app);
             }
         });
     }

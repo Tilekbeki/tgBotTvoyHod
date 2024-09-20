@@ -4,6 +4,7 @@ const AppFilter = (props) => {
 
     const buttonsData = [
         {name: 'all', label: 'Все'},
+        {name:'active', label: 'Активные'},
         {name: 'inProgress', label: 'В процессе'},
         {name: 'canceled', label: 'Отклоненные'},
         {name: 'done', label: 'Завершенные'},
@@ -11,7 +12,7 @@ const AppFilter = (props) => {
 
     const buttons = buttonsData.map(({name,label})=> {
     const active = props.filter === name;//if props.filter ===name    
-    const clazz = active? 'btn-light' : 'btn-outline-danger'//переменная которая содержит строчку класа
+    const clazz = active? 'btn-outline-primary' : 'btn-primary'//переменная которая содержит строчку класа
     return (
             <button 
             className={`btn ${clazz}`}

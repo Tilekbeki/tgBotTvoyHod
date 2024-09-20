@@ -50,7 +50,7 @@ function checkDeadlineAndNotify(bot, chatId, deadlineString, idProgress, goalId,
         checkEnd(bot, chatId, idProgress, goalId, app);
     }, timeDifferenceInMilliseconds));
 
-    // Реакция на отправку файла (фото)
+    //Реакция на отправку результата
     // bot.on('photo', async img => {
     //     try {
     //         // Очистка всех таймеров
@@ -62,14 +62,20 @@ function checkDeadlineAndNotify(bot, chatId, deadlineString, idProgress, goalId,
     //     }
     // });
 
-    // Обработка команды /result
-    bot.onText(/\/result/, async msg => {
-        try {
-            await downloadRes(bot, chatId, idProgress, goalId);
-        } catch (error) {
-            console.error('Ошибка при вызове downloadRes:', error);
+
+    const {downloadRes} = require('./downloadRes');
+    bot.on('text', async msg => {
+        if (msg.text==='/complete') {
+            if (chatId) { // Убедимся, что команда от того же пользователя
+                timeouts.forEach(timeout => clearTimeout(timeout));
+                bot.sendMessage(chatId, 'Mission completed! Сделал дело – гуляй смело! ⚡️ Присылай результат.');
+                downloadRes(bot, chatId, idProgress, goalId, app); // Вызов downloadRes
+                return; // Завершаем выполнение, чтобы прервать все дальнейшие действия
+            }
         }
     });
+
+ 
 }
 
 module.exports = {checkDeadlineAndNotify};

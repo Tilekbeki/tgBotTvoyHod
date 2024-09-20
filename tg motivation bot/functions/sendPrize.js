@@ -1,7 +1,7 @@
-async function sendPrize(bot, id, chatId) {
+async function sendPrize(bot, goalId, chatId) {
     const fs = require('fs');
     try {
-        const response = await fetch('http://localhost:3000/prize/2', {
+        const response = await fetch(`http://localhost:3000/user-Prizes/${goalId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -11,13 +11,13 @@ async function sendPrize(bot, id, chatId) {
         if (response.ok) {
             const data = await response.json();
             console.log(data)
-            const base64Content = data.content;
+            const base64Content = data.prizeName;
             const buffer = Buffer.from(base64Content, 'base64');
             let tempFilePath;
-            if(data.type == 'file') {
+            if(data.prizeType == 'file') {
                 tempFilePath = `./Приз для ${chatId}.docx`;
             } 
-            if(data.type == 'promo') {
+            if(data.prizeType == 'promo') {
                 tempFilePath = `./Приз для ${chatId}.jpg`;
             }
 
@@ -28,8 +28,8 @@ async function sendPrize(bot, id, chatId) {
             }).catch(err => {
                 console.error(err);
             });
-        } else {
-            bot.sendMessage(chatId, 'Ошибка при получении файла с сервера');
+            bot.sendMessage(chatId, 'Давайка проверим уровень твоей мотивации сейчас;)');
+            bot.sendMessage(chatId, `http://localhost:3001/quizlast?goalId=${goalId}&userId=${chatId}&isFirst=true`)
         }
     } catch (error) {
         bot.sendMessage(chatId, 'Произошла ошибка: ' + error.message);

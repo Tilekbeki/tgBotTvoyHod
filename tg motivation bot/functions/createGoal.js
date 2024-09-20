@@ -130,7 +130,7 @@ function createGoal(bot, chatId, category, app) {
                                 getStartAgain(bot, chatId);
                                 break;
                             default:
-                                console.log('капец что ты с этим миром не так')
+                                console.log('капец что ты с этим миром не так');
                         }
 
                         deadline = msg.text;
@@ -141,6 +141,12 @@ function createGoal(bot, chatId, category, app) {
                         const year = parseInt(parts[2], 10);
                         curDeadline = new Date(year, month, day);
                         const currentTime = new Date();
+
+                        if (curDeadline < currentTime) {
+                            bot.sendMessage(chatId, 'Дата уже прошла. Пожалуйста, укажите дедлайн в будущем.');
+                            askDeadline(bot, category, app); // Повторяем запрос дедлайна
+                            return;
+                        }
                         console.log(`текущее время ${currentTime}`);
                         console.log(`сам дедлайн ${curDeadline}`);
                         let goal = {

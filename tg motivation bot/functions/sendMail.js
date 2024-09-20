@@ -1,6 +1,5 @@
 const nodemailer = require('nodemailer');
 function sendMail(bot,chatId, info) {
-    bot.sendMessage(chatId, 'Письмо успешно отправлено: ');
     const transporter = nodemailer.createTransport({
         service: 'gmail', // или другой SMTP-сервис
         auth: {

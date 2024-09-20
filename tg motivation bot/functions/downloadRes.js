@@ -30,21 +30,34 @@ function downloadRes(bot, chatId, idProgress, goalId, app) {
                 askForType(app);
             }
         });
-        app.get('/api/finish/:status/:chatId', (req, res) => {
+        app.get('/api/finish/:status/:chatId', async (req, res) => {
             const status = req.params.status;
             const chatId = req.params.chatId;
             
             if (status === 'done') {
-                clearInterval(checkStatusInterval);
+                //clearInterval(checkStatusInterval);
                 bot.sendMessage(chatId, 'Поздравляю! Результат, достойный похвал! 🥳 Показал целеустремленность и заслужил подарок.\nПродолжай в том же духе - достигай целей и становись лучше!»');
                 sendPrize(bot, goalId, chatId);
             } 
             if (status === 'inProgress') {
-                clearInterval(checkStatusInterval);
-                bot.sendMessage(chatId, 'Результат не понравился Администратору! Пожалуйста, отправь снова');
-                askForType();
-            } else {
+                const response = await fetch(`http://localhost:3000/progressinfo/${idProgress}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    //clearInterval(checkStatusInterval);
+                    bot.sendMessage(chatId, 'Результат не понравился Администратору! Пожалуйста, отправь снова');
+                    bot.sendMessage(chatId, `Коментарий админа: \n ${data.comment}`);
+                    askForType(app);
+                }
+                
+            } if (status !== 'inProgress' && status !== 'done') {
                 bot.sendMessage(chatId, 'Твоя цель была отклонена, всего хорошего!');
+                askForType(app);
+                bot.sendMessage(chatId, `Статус ${status}`);
             }
         });
     }
